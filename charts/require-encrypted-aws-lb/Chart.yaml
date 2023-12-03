@@ -1,0 +1,6 @@
+apiVersion: v2
+name: require-encrypted-aws-lb
+description: A chart to install the require encrypted aws load balancer policy
+type: application
+version: 1.0.0
+appVersion: 1.0.0

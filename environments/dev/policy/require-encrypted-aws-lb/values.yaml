@@ -1,0 +1,2 @@
+# Helm chart values
+validation_failure_action: Audit

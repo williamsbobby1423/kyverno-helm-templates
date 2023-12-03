@@ -1,0 +1,19 @@
+# used https://betterprogramming.pub/using-gitlab-as-helm-chart-registry-ab4d4ef42833 as an example
+
+stages:
+  - package-publish
+  
+helm-package-deploy:
+  stage: package-publish
+  image:
+    name: alpine/helm:3.13.2
+    entrypoint: [""]
+  before_script:
+    - if [[ "${CI_COMMIT_REF_NAME}" == "main"  ]]; then CHANNEL=stable; else CHANNEL=develop; fi
+    - apk add git
+    - helm plugin install --version=v0.10.4 https://github.com/chartmuseum/helm-push.git
+  script:
+    - . charts-deploy.sh -r "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/${CHANNEL}" -p "${CI_PROJECT_ID}" -t "${CI_JOB_TOKEN}" -u "${CI_REGISTRY_USER}"
+  rules:
+    - changes:
+      - charts/**/*

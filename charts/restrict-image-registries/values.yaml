@@ -1,0 +1,7 @@
+
+enable: false
+
+#"eu.foo.io/* | bar.io/*" - allows read from repositories eu.foo.io or bar.io
+registries_regex: 
+
+validation_failure_action: Audit

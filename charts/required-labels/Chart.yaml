@@ -1,0 +1,6 @@
+apiVersion: v2
+name: required-labels
+description: A chart to install the require labels
+type: application
+version: 1.0.0
+appVersion: 1.0.0
