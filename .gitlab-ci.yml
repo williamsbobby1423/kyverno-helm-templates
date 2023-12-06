@@ -13,7 +13,6 @@ helm-package-deploy:
     - apk add git
     - helm plugin install --version=v0.10.4 https://github.com/chartmuseum/helm-push.git
   script:
-    - echo "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/${CHANNEL}"
     - . charts-deploy.sh -r "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/helm/${CHANNEL}" -p "${CI_PROJECT_ID}" -t "${CI_JOB_TOKEN}" -u "${CI_REGISTRY_USER}"
   rules:
     - changes:
