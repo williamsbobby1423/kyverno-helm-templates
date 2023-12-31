@@ -2,5 +2,5 @@ enable: false
 
 #kyverno Failure actions: tells Kyverno if the resource being validated should be allowed but reported (`Audit`) or blocked (`Enforce`).
 validation_failure_action: Audit
-labels: []
+labels: {}
 message: 

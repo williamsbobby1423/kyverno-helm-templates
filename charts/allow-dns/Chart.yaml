@@ -1,0 +1,7 @@
+apiVersion: v2
+name: allow-dns
+description: |
+  A chart to install a policy that allows pods to communicate with the dns service within the cluster. https://kyverno.io/policies/best-practices/add-networkpolicy-dns/add-networkpolicy-dns/
+type: application
+version: 1.0.0
+appVersion: 1.0.0
