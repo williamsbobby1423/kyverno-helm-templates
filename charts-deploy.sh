@@ -6,13 +6,13 @@
 Help()
 {
    # Display Help
-   echo "Uploads helm chart contained in the list of directories to a registry"
+   echo "Uploads charts from the charts folder to gitlab."
    echo
-   echo "Syntax: scriptTemplate [-r|-p|-u]"
+   echo "Syntax: scriptTemplate [-r|p|u]"
    echo "options:"
-   echo "r     The helm registry where the charts will be uploaded"
-   echo "p     The password to log into the helm registry"
-   echo "u     The username to log into the helm registry"
+   echo "r     The git helm package registry location that contains the helm charts for the project"
+   echo "p     The password for the helm registry"
+   echo "u     The username for the helm registry"
    echo
 }
 
@@ -28,19 +28,17 @@ while getopts ":h:r:p:u:" option; do
          exit;;
       r) # The git helm package registry location that contains the helm charts for the projects
 	 REGISTRY=${OPTARG};;
-      p) # The password for the registry
-	 PASSWORD=${OPTARG};;
-      u) # The username for the registry
+      p) # The password for the helm chart
+	 TOKEN=${OPTARG};;
+      u) # The username for the helm chart
     USERNAME="${OPTARG}";;
    esac
 done
 
-base_dir=$(pwd)
-
-helm registry login ${REGISTRY} --username ${USERNAME} --password ${PASSWORD}
-
 CHARTS_PATH="./charts"
 cd ${CHARTS_PATH}
+
+helm registry login ${REGISTRY} --username ${USERNAME} --password ${PASSWORD}
 
 declare -a dirs
 i=1
@@ -51,33 +49,26 @@ done
 echo "There are ${#dirs[@]} charts in the current path"
 for((i=1;i<=${#dirs[@]};i++))
 do
-   directory="${dirs[i]}"
+  directory="${dirs[i]}"
 
-   cd ${base_dir}/${CHARTS_PATH}/${directory}
+  chart_name="${directory}"
 
-   # get the directory base name
-   directory_name=$(basename "${directory}")
+  # read the name attribute from the chart.yaml file
+  chart_name=$(yq '.name' "${directory}/Chart.yaml")
 
-   # read the name attribute from the chart.yaml file
-   chart_name=$(yq '.name' Chart.yaml)
+  # read the version attribute from the chart.yaml file
+  chart_version=$(yq '.version' "${directory}/Chart.yaml")
 
-   # read the version attribute from the chart.yaml file
-   chart_version=$(yq '.version' Chart.yaml)
+  REPO_EXISTS=$(aws ecr describe-repositories | jq -r --arg repoName "${chart_name}" '.repositories[] | select( .repositoryName == $repoName )' | jq length)
 
-   cd ..
+  if [ -z "${REPO_EXISTS}" ]
+  then
+    aws ecr create-repository --repository-name "${chart_name}" --region "us-east-1" 1> /dev/null    
+  fi
 
-   REPO_EXISTS=$(aws ecr describe-repositories | jq -r --arg repoName "${chart_name}" '.repositories[] | select( .repositoryName == $repoName )' | jq length)
+  echo "Creating helm chart: ${chart_name} with version: ${chart_version} and pushing to registry: ${REGISTRY}"
 
-   if [ -z "${REPO_EXISTS}" ]
-   then
-      aws ecr create-repository --repository-name "${chart_name}" --region "us-east-1" 1> /dev/null    
-   fi
-
-   echo "Creating helm chart: ${chart_name} with version: ${chart_version} and pushing to registry: ${REGISTRY}"
-
-   helm package ${directory_name}
-   helm push ${chart_name}-${chart_version}.tgz "oci://${REGISTRY}/"
+  helm package ${directory}
+  helm push ${chart_name}-${chart_version}.tgz "oci://${REGISTRY}/"
 
 done
-
-cd ${base_dir}
