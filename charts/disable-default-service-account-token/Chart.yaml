@@ -1,0 +1,7 @@
+apiVersion: v2
+name: disable-default-service-account-token
+description: |
+  A chart to install a policy that mutates any new `default` ServiceAccounts to disable auto-mounting of the token into Pods obviating the need to do so individually
+type: application
+version: 1.0.0
+appVersion: 1.0.0

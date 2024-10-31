@@ -1,0 +1,8 @@
+apiVersion: v2
+name: default-deny-network-new-namespaces
+description: |
+  A chart to install a policy that creates a NetworkPolicy which is configured for each Namespace to default 
+  deny all ingress and egress traffic to the Pods in the Namespace.
+type: application
+version: 1.0.0
+appVersion: 1.0.0

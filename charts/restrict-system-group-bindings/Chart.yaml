@@ -1,0 +1,7 @@
+apiVersion: v2
+name: restrict-system-group-bindings
+description: |
+  A chart to install a kyverno policy that prevents creating bindings to systems groups including system:anonymous, system:unauthenticated, and system:masters
+type: application
+version: 1.0.0
+appVersion: 1.0.0
