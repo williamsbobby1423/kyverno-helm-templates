@@ -1,0 +1,122 @@
+apiVersion: v1
+entries:
+  allow-dns:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-05-24T21:57:56.193504032Z"
+    description: |
+      A chart to install a policy that allows pods to communicate with the dns service within the cluster. https://kyverno.io/policies/best-practices/add-networkpolicy-dns/add-networkpolicy-dns/
+    digest: 8cb13ce5eae74d6cddba0614a4b9b53d1ffa5dd7061f4ec7f53da9866b3bd23c
+    name: allow-dns
+    type: application
+    urls:
+    - https://raw.githubusercontent.com/williamsbobby1423/kyverno-helm-templates/gh-pages/helm/allow-dns-1.0.0.tgz
+    version: 1.0.0
+  default-deny-network-existing-namespaces:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-05-24T21:57:56.193808736Z"
+    description: "A chart to install a policy that creates a NetworkPolicy which is
+      configured for each Namespace to default \ndeny all ingress and egress traffic
+      to the Pods in the Namespace.\n"
+    digest: d1d611a6b3be19bf5fbfae7754d5257e61942f438c57c7125bd8cb8c56ac4cee
+    name: default-deny-network-existing-namespaces
+    type: application
+    urls:
+    - https://raw.githubusercontent.com/williamsbobby1423/kyverno-helm-templates/gh-pages/helm/default-deny-network-existing-namespaces-1.0.0.tgz
+    version: 1.0.0
+  default-deny-network-new-namespaces:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-05-24T21:57:56.194110884Z"
+    description: "A chart to install a policy that creates a NetworkPolicy which is
+      configured for each Namespace to default \ndeny all ingress and egress traffic
+      to the Pods in the Namespace.\n"
+    digest: e8b6e835312d5fcc16525b363378f3e59a528b9b3ca5970cc64d71fe80e9f227
+    name: default-deny-network-new-namespaces
+    type: application
+    urls:
+    - https://raw.githubusercontent.com/williamsbobby1423/kyverno-helm-templates/gh-pages/helm/default-deny-network-new-namespaces-1.0.0.tgz
+    version: 1.0.0
+  disable-default-service-account-token:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-05-24T21:57:56.19434236Z"
+    description: |
+      A chart to install a policy that mutates any new `default` ServiceAccounts to disable auto-mounting of the token into Pods obviating the need to do so individually
+    digest: 77553a5ea70b402bd2ab03dd9dd50046e45475a97452b5b38b842e46033125bb
+    name: disable-default-service-account-token
+    type: application
+    urls:
+    - https://raw.githubusercontent.com/williamsbobby1423/kyverno-helm-templates/gh-pages/helm/disable-default-service-account-token-1.0.0.tgz
+    version: 1.0.0
+  disallow-latest-tag:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-05-24T21:57:56.194603892Z"
+    description: A chart to install the disallow latest tag policy
+    digest: c01ba04a881af8a701fa1c8ae7091059059b39f8893c4762783d5e420c462434
+    name: disallow-latest-tag
+    type: application
+    urls:
+    - https://raw.githubusercontent.com/williamsbobby1423/kyverno-helm-templates/gh-pages/helm/disallow-latest-tag-1.0.0.tgz
+    version: 1.0.0
+  require-encrypted-aws-lb:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-05-24T21:57:56.194959786Z"
+    description: A chart to install the require encrypted aws load balancer policy
+    digest: 228a482b969c0fef753a75b68bc99a5792ff4aaf04fa45ce60fbf6bc076f06e7
+    name: require-encrypted-aws-lb
+    type: application
+    urls:
+    - https://raw.githubusercontent.com/williamsbobby1423/kyverno-helm-templates/gh-pages/helm/require-encrypted-aws-lb-1.0.0.tgz
+    version: 1.0.0
+  required-labels:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-05-24T21:57:56.195180812Z"
+    description: A chart to install the require labels
+    digest: 1b5bd9a998fe0e2228699f8893ddeae2fb552b441dc6725f0e3e9466c93b812b
+    name: required-labels
+    type: application
+    urls:
+    - https://raw.githubusercontent.com/williamsbobby1423/kyverno-helm-templates/gh-pages/helm/required-labels-1.0.0.tgz
+    version: 1.0.0
+  restrict-image-registries:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-05-24T21:57:56.195407649Z"
+    description: A chart to install the policy which restricts which registries images
+      can be pulled from
+    digest: 13031f1e57be31bd1dfca6f9d179ee5c47a6da5c6d007995b04246e232c12504
+    name: restrict-image-registries
+    type: application
+    urls:
+    - https://raw.githubusercontent.com/williamsbobby1423/kyverno-helm-templates/gh-pages/helm/restrict-image-registries-1.0.0.tgz
+    version: 1.0.0
+  restrict-system-group-bindings:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-05-24T21:57:56.195603577Z"
+    description: |
+      A chart to install a kyverno policy that prevents creating bindings to systems groups including system:anonymous, system:unauthenticated, and system:masters
+    digest: 077915344b922378a840063b3344ac72ffd3b6bf0d50387db8ffba950a081a6c
+    name: restrict-system-group-bindings
+    type: application
+    urls:
+    - https://raw.githubusercontent.com/williamsbobby1423/kyverno-helm-templates/gh-pages/helm/restrict-system-group-bindings-1.0.0.tgz
+    version: 1.0.0
+  verify-image:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2025-05-24T21:57:56.195808333Z"
+    description: A chart to install the policy which restricts which registries images
+      can be pulled from
+    digest: 851081b9412323c8a1c4a698aa4c148813c03e20004bc52813814466e57e3bfb
+    name: verify-image
+    type: application
+    urls:
+    - https://raw.githubusercontent.com/williamsbobby1423/kyverno-helm-templates/gh-pages/helm/verify-image-1.0.0.tgz
+    version: 1.0.0
+generated: "2025-05-24T21:57:56.193067831Z"
