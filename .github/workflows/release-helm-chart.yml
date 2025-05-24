@@ -1,0 +1,70 @@
+name: Release Helm Charts
+
+concurrency: release-helm
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "teams/**"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v2
+        with:
+          path: "src"
+          ref: "main"
+          fetch-depth: 0
+
+      - name: Checkout gh-pages
+        uses: actions/checkout@v2
+        with:
+          path: "dest"
+          ref: "gh-pages"
+          fetch-depth: 0
+
+      - name: Install Helm
+        uses: azure/setup-helm@v1
+
+      - name: Package and Index Helm Charts
+        shell: bash
+        working-directory: src
+        run: |
+          # Create a temporary directory for packaged charts
+          mkdir -p ./packaged-charts
+
+          # Find all Chart.yaml files and package their parent directories
+          for chart_file in $(find ./charts -name Chart.yaml); do
+            chart_dir=$(dirname "$chart_file")
+            echo "Packaging chart in $chart_dir"
+            helm package "$chart_dir" -d ./packaged-charts
+          done
+
+          # Create or update the Helm repository index
+          helm repo index ./packaged-charts --merge ../dest/index.yaml --url https://raw.githubusercontent.com/williamsbobby1423/kyverno-helm-templates/gh-pages/helm/
+
+          # Create destination directory
+          mkdir -p ../dest/helm
+
+          # Copy packaged charts to gh-pages
+          echo "Copying packaged charts to gh-pages..."
+          cp -pr ./packaged-charts/*.tgz ../dest/helm/
+
+          # Copy index.yaml to gh-pages branch
+          cp -pr ./packaged-charts/index.yaml ../dest/
+
+      - name: Push to gh-pages
+        shell: bash
+        working-directory: dest
+        run: |
+          git config user.name "bobby"
+          git config user.email "williamsbobby1423@gmail.com"
+          git add $(git ls-files -o --exclude-standard)
+          git add index.yaml helm/
+          git commit -m "Updated Helm repository from ref: $GITHUB_SHA"
+          git push
